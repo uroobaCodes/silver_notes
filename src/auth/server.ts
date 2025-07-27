@@ -28,9 +28,15 @@ export async function createClient() {
 export async function getUser() {
   const { auth } = await createClient();
   const userObject = await auth.getUser();
+
+  // Log only if there's an actual Supabase error
   if (userObject.error) {
-    console.error("Error fetching user:", userObject.error);
+    console.error("Supabase error while fetching user:", userObject.error);
     return null;
   }
+
+  // If user is simply not logged in, just return null (no logging needed)
+  if (!userObject.data?.user) return null;
+
   return userObject.data.user;
 }
