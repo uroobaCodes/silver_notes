@@ -5,9 +5,10 @@ import { shadow } from "@/styles/utils";
 import { Button } from "../ui/button";
 import DarkModeToggle from "./DarkModeToggle";
 import LogoutButtonComponent from "./LogoutButtonComponent";
+import { getUser } from "@/auth/server";
 
-function Header() {
-  const user = null;
+async function Header() {
+  const user = await getUser();
 
   return (
     <header
