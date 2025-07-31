@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { start } from "repl";
+import { loginAction, signUpAction } from "@/actions/users";
 
 type Props = {
   type: "login" | "signup";
