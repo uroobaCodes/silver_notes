@@ -31,7 +31,8 @@ async function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="mt-4 mb-2 text-lg">
             {user ? (
-              `Your Notes (${notes.length})`
+              // `Your Notes (${notes.length})`
+              `Your Notes`
             ) : (
               <p className="">
                 Log in{" "}

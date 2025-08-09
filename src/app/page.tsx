@@ -9,6 +9,15 @@ type Props = {
 };
 
 export default async function Home({ searchParams }: Props) {
+  console.log(
+    "%c server component / home has rendered ",
+    "background: #0d1117; color: #79c0ff; font-weight: bold; padding: 4px 8px; border-radius: 4px;",
+  );
+  const resolvedSearchParams = await searchParams;
+  console.log(
+    "Server noteId param on first render:",
+    resolvedSearchParams.noteId,
+  );
   const user = await getUser();
   const noteIdParam = (await searchParams).noteId;
   const noteId = Array.isArray(noteIdParam)
