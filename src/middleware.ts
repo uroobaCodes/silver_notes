@@ -12,6 +12,8 @@ export const config = {
 };
 
 export async function updateSession(request: NextRequest) {
+  // console.log("HERE IS THE REQUEST:", request);
+  const origin = request.nextUrl.origin;
   let supabaseResponse = NextResponse.next({
     request,
   });
@@ -41,9 +43,57 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const isAuthRoute =
+    request.nextUrl.pathname === "/login" ||
+    request.nextUrl.pathname === "/sign-up";
+
+  if (isAuthRoute) {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      return NextResponse.redirect(
+        new URL("/", process.env.NEXT_PUBLIC_BASE_URL),
+      );
+    }
+  }
+
+  // console.log("request.nextURl", request.nextUrl);
+  // console.log("Can I look At Just Request??", request);
+  // console.log("is auth route??", isAuthRoute);
+  const { searchParams, pathname } = new URL(request.url);
+
+  if (!searchParams.get("noteId") && pathname === "/") {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user) {
+      const { newestNoteId } = await fetch(
+        // `${process.env.NEXT_PUBLIC_BASE_URL}/api/fetch-newest-note?userId=${user.id}`,
+        `${origin}/api/fetch-newest-note?userId=${user.id}`,
+      ).then((res) => res.json());
+
+      if (newestNoteId) {
+        const url = request.nextUrl.clone();
+        url.searchParams.set("noteId", newestNoteId);
+        return NextResponse.redirect(url);
+      } else {
+        const { noteId } = await fetch(
+          `${origin}/api/create-new-note?userId=${user.id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        ).then((res) => res.json());
+        const url = request.nextUrl.clone();
+        url.searchParams.set("noteId", noteId);
+        return NextResponse.redirect(url);
+      }
+    }
+  }
 
   return supabaseResponse;
 }
