@@ -35,8 +35,8 @@ export default async function Home({ searchParams }: Props) {
   console.log("all note in db", allNotes);
 
   return (
-    <div className="flex h-full flex-col items-center gap-4 border-2 border-white">
-      <div className="flex w-full max-w-4xl justify-end gap-2 border-2 border-amber-400">
+    <div className="flex h-full flex-col items-center gap-4">
+      <div className="flex w-full max-w-4xl justify-end gap-2">
         <AskAIButton user={user} />
         <NewNoteButton user={user} />
       </div>
