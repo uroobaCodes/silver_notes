@@ -1,5 +1,5 @@
-// import { createServerClient } from "@supabase/ssr";
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
+// import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
+import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
@@ -15,38 +15,42 @@ export const config = {
 export async function updateSession(request: NextRequest) {
   // console.log("HERE IS THE REQUEST:", request);
   const origin = request.nextUrl.origin;
-  const supabaseResponse = NextResponse.next({
+  let supabaseResponse = NextResponse.next({
     request,
   });
   console.log(
     "middleware ran when route changes, can only be seen in terminal not browser",
   );
-  const supabase = createMiddlewareClient(
-    { req: request, res: supabaseResponse },
-    {
-      supabaseUrl: process.env.SUPABASE_URL!,
-      supabaseKey: process.env.SUPABASE_ANON_KEY!,
-    },
-    // {
-    //   cookies: {
-    //     getAll() {
-    //       return request.cookies.getAll();
-    //     },
-    //     setAll(cookiesToSet) {
-    //       cookiesToSet.forEach(({ name, value, options }) =>
-    //         request.cookies.set(name, value),
-    //       );
-    //       supabaseResponse = NextResponse.next({
-    //         request,
-    //       });
-    //       cookiesToSet.forEach(({ name, value, options }) =>
-    //         supabaseResponse.cookies.set(name, value, options),
-    //       );
-    //     },
-    //   },
-    // },
-  );
+  // const supabase = createMiddlewareClient(
+  //   { req: request, res: supabaseResponse },
+  //   {
+  //     supabaseUrl: process.env.SUPABASE_URL!,
+  //     supabaseKey: process.env.SUPABASE_ANON_KEY!,
+  //   },
+  // );
 
+  const supabase = createServerClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value),
+          );
+          supabaseResponse = NextResponse.next({
+            request,
+          });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options),
+          );
+        },
+      },
+    },
+  );
   const isAuthRoute =
     request.nextUrl.pathname === "/login" ||
     request.nextUrl.pathname === "/sign-up";
