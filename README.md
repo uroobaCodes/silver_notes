@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Silver Notes
+
+A modern, AI-powered note-taking web application built with Next.js, Prisma, Supabase, and OpenAI.
+
+---
+
+## Features
+
+- ✍️ **Create, edit, and organize notes** with a clean, intuitive interface
+- 🔍 **Fast search** using Fuse.js for instant filtering
+- 🤖 **AI assistance**: Summarize notes with integrated OpenAI features
+- 🔒 **User authentication** for secure, personalized note management
+- 🌗 **Dark mode** and responsive design for a seamless experience on any device
+- 🗂️ **Sidebar navigation** for quick access to all your notes
+- 🚀 **Real-time updates** with debounced saving for smooth editing
+- 🛡️ **Robust code quality**: Pull requests, careful merge conflict resolution and structured branching strategy
+
+---
+
+## Tech Stack
+
+- **Frontend:** Next.js, React, Redux, Tailwind CSS
+- **Backend:** Prisma ORM, Supabase (PostgreSQL)
+- **AI Integration:** OpenAI API
+- **Authentication:** Supabase Auth
+- **State Management:** Redux
+- **Search:** Fuse.js
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js (v18+ recommended)
+- PostgreSQL database (Supabase or local)
+- OpenAI API key
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/uroobaCodes/silver_notes.git
+   cd silver_notes
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. **Set up environment variables:**
+   -Set up `.env.local` and fill in your database and OpenAI credentials.
 
-To learn more about Next.js, take a look at the following resources:
+4. **Run database migrations:**
+   ```bash
+   npx prisma migrate dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `/src/app` – Next.js app directory (pages, layout, API routes)
+- `/src/components` – UI and feature components
+- `/src/db` – Prisma schema and database setup
+- `/src/store` – Redux store and slices
+- `/src/actions` – Server actions (e.g., notes, users)
+- `/src/lib` – Utility functions and constants
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Branching Strategy
+
+- `master`: Production-ready code
+- `dev`: Main development branch
+- `feature/*` or `feat/*`: Feature-specific branches
+- Pull requests, careful merge conflict resolution and structured branching strategy
+
+---
+
+## AI Features
+
+Silver Notes leverages OpenAI to help users:
+- Summarize existing notes
+
+---
+
+## Contributing
+
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## License
+
+[MIT](LICENSE)
+
+---
+
+## Acknowledgements
+
+- [Next.js](https://nextjs.org/)
+- [Prisma](https://www.prisma.io/)
+- [Supabase](https://supabase.com/)
+- [OpenAI](https://openai.com/)
+- [Fuse.js](https://fusejs.io/)
